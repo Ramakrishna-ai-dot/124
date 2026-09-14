@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Shrimp Procurement MIS — Premium UI</title>
+<style>
+:root{
+  --navy:#082b4a;--navy2:#0d3d67;--blue:#1475e8;--blue2:#0d62d7;
+  --bg:#f2f7fd;--card:#fff;--line:#d9e5f2;--text:#102b4a;--muted:#607894;
+  --green:#0b8f56;--greenbg:#e3f7ee;--red:#dc3d46;--redbg:#ffe8e9;
+  --shadow:0 10px 30px rgba(18,67,110,.09);--radius:18px;
+}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
+.app{min-height:100vh;display:flex}.sidebar{width:258px;background:linear-gradient(180deg,#07355d,#062b4b);color:white;position:fixed;inset:0 auto 0 0;z-index:20;padding:18px 12px;transition:.28s;box-shadow:5px 0 25px rgba(0,35,70,.12)}
+.brand{display:flex;gap:11px;align-items:center;padding:4px 9px 18px;border-bottom:1px solid rgba(255,255,255,.13)}
+.logo{font-size:39px}.brand b{font-size:18px;line-height:1.15}.brand small{display:block;color:#8fc8ee;margin-top:5px}
+.nav{padding-top:16px}.nav-label{font-size:10px;letter-spacing:1.4px;color:#7fa6c6;padding:10px 12px}.nav a{display:flex;align-items:center;gap:12px;color:#e8f4ff;text-decoration:none;padding:13px 14px;border-radius:11px;margin:4px 0;font-weight:600;font-size:14px;cursor:pointer}.nav a:hover{background:rgba(255,255,255,.09)}.nav a.active{background:linear-gradient(90deg,#0876ed,#1367d4);box-shadow:0 7px 18px rgba(8,118,237,.25)}
+.main{margin-left:258px;width:calc(100% - 258px);min-width:0;transition:.28s}.top{height:72px;background:rgba(255,255,255,.92);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 26px;position:sticky;top:0;z-index:10;backdrop-filter:blur(10px)}
+.title{font-size:21px;font-weight:800}.crumb{font-size:12px;color:var(--muted);margin-top:4px}.user{display:flex;align-items:center;gap:12px}.avatar{width:39px;height:39px;border-radius:50%;background:#7651db;color:#fff;display:grid;place-items:center;font-weight:800}.datepill{padding:11px 15px;background:#f5f9ff;border:1px solid var(--line);border-radius:12px;font-weight:600;font-size:13px}
+.content{padding:20px 22px 30px;max-width:1600px;margin:auto}.hamb{border:0;background:transparent;font-size:24px;color:var(--navy);cursor:pointer;margin-right:10px}.top-left{display:flex;align-items:center}
+.tabs{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:16px;margin-bottom:20px}.tab{background:#fff;border:1px solid var(--line);border-radius:15px;padding:14px 18px;display:flex;align-items:center;justify-content:center;gap:10px;font-weight:700;color:#173b61;cursor:pointer;box-shadow:0 4px 15px rgba(25,76,120,.05)}.tab.active{background:linear-gradient(135deg,#1378ee,#0b65d4);color:white;border-color:#1378ee;box-shadow:0 10px 25px rgba(19,120,238,.24)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:18px}.cardhead{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:16px}.headtitle{display:flex;align-items:center;gap:12px}.iconbox{width:42px;height:42px;border-radius:13px;background:#e7f8ef;display:grid;place-items:center;font-size:22px}.headtitle h2{margin:0;font-size:19px}.headtitle p{margin:3px 0 0;color:var(--muted);font-size:12px}.excel{display:flex;align-items:center;gap:8px;background:#e8f8ef;padding:9px;border-radius:13px}.btn{border:0;border-radius:10px;padding:11px 15px;font-weight:700;cursor:pointer;font-size:13px}.btn.green{background:#078b4f;color:#fff}.btn.outgreen{background:#fff;color:#087a49;border:1px solid #2eaa73}.btn.blue{background:var(--blue);color:#fff}.btn.soft{background:#edf3fa;color:#173b61}.btn.red{background:var(--redbg);color:#c52d37}.formgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px 18px}.field label{display:block;font-size:12px;font-weight:700;margin:0 0 7px}.req{color:#e03a43}.input{height:43px;border:1px solid #cbd9e8;border-radius:9px;padding:0 13px;width:100%;font-size:14px;color:#173b61;background:#fff;outline:none}.input:focus{border-color:#2580eb;box-shadow:0 0 0 3px rgba(37,128,235,.1)}.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:15px}.tip{background:#eaf4ff;border:1px solid #c8e1fb;border-radius:11px;padding:10px 13px;color:#185a9d;font-size:12px;display:inline-block}
+.searchbar{display:flex;gap:9px}.searchbar .input{width:270px}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse;min-width:900px}.table th{background:#f4f8fc;color:#315579;text-align:left;font-size:11px;letter-spacing:.2px;padding:11px 10px}.table td{padding:12px 10px;border-bottom:1px solid #e4ecf4;font-size:13px;white-space:nowrap}.table tr:hover td{background:#fbfdff}.strong{font-weight:800}.status{display:inline-block;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:800}.booked{background:#e8f1ff;color:#1264c7}.received{background:var(--greenbg);color:var(--green)}.quality{background:#fff4dc;color:#a06b00}.rowactions{display:flex;gap:6px}.rowactions .btn{padding:8px 11px}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.metric{background:#fff;border:1px solid var(--line);border-radius:15px;padding:17px;box-shadow:var(--shadow)}.metric span{font-size:12px;color:var(--muted)}.metric strong{display:block;font-size:23px;margin-top:7px}.metric.blue{border-left:4px solid var(--blue)}.metric.green{border-left:4px solid #0aa660}.metric.orange{border-left:4px solid #e59b17}.metric.purple{border-left:4px solid #7651db}
+.empty{padding:30px;text-align:center;color:var(--muted)}.page{display:none}.page.active{display:block}
+.mastergrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.master-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}.master-card h3{margin:0 0 4px;font-size:16px}.master-card p{margin:0 0 14px;color:var(--muted);font-size:12px}.master-form{display:flex;gap:8px;margin-bottom:14px}.master-form .input{height:40px}.master-form .btn{white-space:nowrap}.master-list{max-height:300px;overflow:auto;border-top:1px solid #edf2f7}.master-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #edf2f7}.master-item:last-child{border-bottom:0}.master-name{font-weight:700;font-size:13px}.master-type{font-size:10px;color:var(--muted);margin-top:2px}.mini-delete{border:0;background:var(--redbg);color:#c52d37;border-radius:8px;padding:6px 9px;font-size:11px;font-weight:700;cursor:pointer}.master-note{background:#eef7ff;border:1px solid #d1e7fb;border-radius:12px;padding:12px 14px;color:#205d95;font-size:12px;margin-bottom:18px}.select-input{appearance:auto}
+
+.modal{position:fixed;inset:0;background:rgba(8,43,74,.42);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}.modalbox{background:#fff;width:min(860px,96vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-radius:18px;box-shadow:0 25px 70px rgba(8,43,74,.25);padding:20px}.modalhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.modalhead h2{margin:0;font-size:19px}.modalclose{border:0;background:#edf3fa;color:#173b61;border-radius:10px;width:38px;height:38px;font-size:20px;cursor:pointer}.detailgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.detailitem{background:#f7faff;border:1px solid #e1eaf3;border-radius:11px;padding:11px}.detailitem b{display:block;font-size:11px;color:var(--muted);margin-bottom:5px}.detailitem span{font-size:14px;font-weight:700;color:var(--text)}.detailfull{grid-column:1/-1}.attachment-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}.invoice-name{background:#eef7ff;border:1px solid #d1e7fb;border-radius:9px;padding:9px 11px;color:#205d95;font-size:12px}.invoice-empty{color:var(--muted);font-size:12px}.btn.invoice{background:#edf5ff;color:#0d62d7}.btn.download{background:#e3f7ee;color:#087a49}
+.sidebarCollapsed .sidebar{width:0;padding:0;overflow:visible}.sidebarCollapsed .main{margin-left:0;width:100%}.sidebarCollapsed .sidebar>*{display:none}.floatingNav{position:fixed;left:0;top:50%;transform:translateY(-50%);width:38px;height:72px;border:0;border-radius:0 14px 14px 0;background:#0a365b;color:#fff;font-size:20px;z-index:30;box-shadow:4px 5px 15px rgba(0,0,0,.15);display:none;cursor:pointer}.sidebarCollapsed .floatingNav{display:block}
+@media(max-width:900px){.sidebar{width:220px}.main{margin-left:220px;width:calc(100% - 220px)}.formgrid{grid-template-columns:1fr 1fr}.summary{grid-template-columns:1fr 1fr}.tabs{grid-template-columns:1fr 1fr}.datepill{display:none}}
+@media(max-width:650px){.sidebar{width:0;padding:0;overflow:visible}.sidebar>*{display:none}.main{margin-left:0;width:100%}.floatingNav{display:block}.formgrid,.summary,.tabs{grid-template-columns:1fr}.content{padding:12px}.top{padding:0 14px}.user .datepill{display:none}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+<aside class="sidebar">
+  <div class="brand"><div class="logo">🦐</div><div><b>Shrimp<br>Procurement MIS</b><small>Fresh Catch. Better Tomorrow.</small></div></div>
+  <nav class="nav">
+    <div class="nav-label">MAIN</div>
+    <a data-page="dashboard">⌂ <span>Dashboard</span></a>
+    <div class="nav-label">PROCUREMENT MODULE</div>
+    <a class="active" data-page="booking">▣ <span>Booking Details</span></a>
+    <a data-page="receiving">▣ <span>Receiving Details</span></a>
+    <a data-page="quality">♢ <span>Quality Issues</span></a>
+    <a data-page="daily">▥ <span>Daily Report</span></a>
+    <div class="nav-label">SYSTEM</div><a data-page="master">◉ <span>Master Data</span></a><a>⚙ <span>Settings</span></a>
+  </nav>
+</aside>
+<button class="floatingNav" onclick="toggleNav()">⋮</button>
+<main class="main">
+<header class="top"><div class="top-left"><button class="hamb" onclick="toggleNav()">☰</button><div><div class="title" id="pageTitle">Purchase Booking</div><div class="crumb">⌂ Procurement　›　Purchase Booking　›　<span id="crumb">Booking Details</span></div></div></div><div class="user"><div class="datepill">▣　Sat, 13 Sep 2026　 ◷ 10:24 AM</div><span style="font-size:21px">🔔</span><div class="avatar">PU</div><div><b style="font-size:13px">MIS / Procurement User</b><br><small style="color:#66809a">Procurement Department</small></div>⌄</div></header>
+<div class="content">
+<div class="tabs"><div class="tab active" data-page="booking">▣　Booking Details</div><div class="tab" data-page="receiving">🚚　Receiving Details</div><div class="tab" data-page="quality">♢　Quality Issues</div><div class="tab" data-page="daily">▥　Daily Report</div></div>
+
+<section class="page active" id="booking">
+<div class="card"><div class="cardhead"><div class="headtitle"><div class="iconbox">📗</div><div><h2>New Booking</h2><p>Enter purchase booking details for shrimp procurement</p></div></div><div class="excel"><b>▣ Excel Data</b><button class="btn outgreen" onclick="template('booking')">↓ Template</button><button class="btn green" onclick="exportCSV('booking')">↓ Export</button><label class="btn blue">↑ Import<input id="bookingImport" type="file" hidden accept=".csv,.xlsx,.xls" onchange="importBooking(this)"></label></div></div>
+<div id="bookingEditBanner" style="display:none"></div>
+<div class="formgrid">
+<div class="field"><label>Booking Date <span class="req">*</span></label><input class="input" id="bdate" type="date" value="2026-09-13"></div>
+<div class="field"><label>HOSO Count</label><input class="input" id="bcount" type="number" placeholder="e.g. 50"></div>
+<div class="field"><label>HOSO Quantity (kg) <span class="req">*</span></label><input class="input" id="bqty" type="number" placeholder="e.g. 8000"></div>
+<div class="field"><label>Supplier / Agent Name <span class="req">*</span></label><select class="input select-input" id="bsupplier"><option value="">-- Select Supplier / Agent --</option></select></div>
+<div class="field"><label>Payment Duration / Terms</label><input class="input" id="bterms" placeholder="e.g. 7 Days"></div>
+<div class="field"><label>Booking Rate (₹/kg) <span class="req">*</span></label><input class="input" id="brate" type="number" placeholder="e.g. 450.00"></div>
+</div><div class="tip" style="margin-top:14px">💡 Tip: Make sure supplier / agent details are correct. This booking will be used for receiving and quality tracking.</div><div class="actions"><button class="btn soft" onclick="resetForm('booking')">↻ Reset</button><button class="btn blue" onclick="saveBooking()">▣ Save Booking Record</button></div></div>
+<div class="card"><div class="cardhead"><div><div class="headtitle"><div class="iconbox" style="background:#f0e8ff">◔</div><div><h2>Recent Booking Activity</h2><p>Latest purchase booking records</p></div></div></div><div class="searchbar"><input class="input" id="bsearch" placeholder="⌕ Search supplier / booking no..." oninput="renderBookingRows()"><input class="input" id="bfilter" type="date" onchange="renderBookingRows()"><button class="btn soft" onclick="clearBookingFilters()">⚲ Clear</button></div></div><div class="tablewrap"><table class="table"><thead><tr><th>#</th><th>BOOKING NO</th><th>DATE</th><th>SUPPLIER / AGENT</th><th>HOSO COUNT</th><th>HOSO QTY (kg)</th><th>RATE (₹/kg)</th><th>AMOUNT (₹)</th><th>STATUS</th><th>ACTIONS</th></tr></thead><tbody id="bookingRows"></tbody></table></div></div>
+</section>
+
+<section class="page" id="receiving"><div class="card"><div class="cardhead"><div class="headtitle"><div class="iconbox">🚚</div><div><h2>New Receiving Record</h2><p>Capture receiving, payable quantity and invoice details</p></div></div><div class="excel"><b>▣ Excel Data</b><button class="btn outgreen" onclick="template('receiving')">↓ Template</button><button class="btn green" onclick="exportCSV('receiving')">↓ Export</button></div></div>
+<div class="formgrid"><div class="field"><label>Link Booking No</label><select class="input" id="rbooking"></select></div><div class="field"><label>Batch No. <span class="req">*</span></label><input class="input" id="rbatch" placeholder="e.g. BATCH-2026-0913-A"></div><div class="field"><label>Purchase Point <span class="req">*</span></label><select class="input select-input" id="rpoint"><option value="">-- Select Purchase Point --</option></select></div><div class="field"><label>Receiving Date <span class="req">*</span></label><input class="input" id="rdate" type="date" value="2026-09-13"></div><div class="field"><label>Purchase HOSO Count</label><input class="input" id="rcount" type="number"></div><div class="field"><label>Purchase HOSO Quantity (kg) <span class="req">*</span></label><input class="input" id="rqty" type="number"></div><div class="field"><label>Payable HOSO Quantity (kg) <span class="req">*</span></label><input class="input" id="rpay" type="number"></div><div class="field"><label>Purchase Rate (₹/kg) <span class="req">*</span></label><input class="input" id="rrate" type="number"></div><div class="field"><label>Vehicle No.</label><input class="input" id="rvehicle" placeholder="e.g. AP 26 T 5890"></div><div class="field"><label>Purchase Supervisor Name</label><select class="input select-input" id="rsuper"><option value="">-- Select Supervisor --</option></select></div><div class="field"><label>No. of Boxes</label><input class="input" id="rboxes" type="number"></div><div class="field"><label>Purchase Invoice Attachment</label><input class="input" id="rinvoice" type="file" accept=".pdf,image/jpeg,image/png"></div></div><div class="field" style="margin-top:15px"><label>Remarks / Quality Issues & Quantity Details</label><textarea class="input" id="rremarks" style="height:78px;padding-top:10px" placeholder="Enter notes on ice proportion, trimming status, or quality deviation..."></textarea></div><div class="actions"><button class="btn soft" onclick="resetForm('receiving')">↻ Reset</button><button class="btn blue" onclick="saveReceiving()">▣ Save Receiving Record</button></div></div>
+<div class="card"><div class="cardhead"><div><div class="headtitle"><div class="iconbox" style="background:#e8f5ff">🚚</div><div><h2>Recent Material Receiving Records</h2><p>Supplier-linked receiving traceability</p></div></div></div><input class="input" id="rsearch" style="width:270px" placeholder="⌕ Search batch / vehicle / point" oninput="renderReceivingRows()"></div><div class="tablewrap"><table class="table"><thead><tr><th>DATE & POINT</th><th>BATCH NO</th><th>SUPPLIER / AGENT</th><th>VEHICLE NO</th><th>COUNT & BOXES</th><th>PAYABLE QTY</th><th>RATE & TOTAL (₹)</th><th>SUPERVISOR</th><th>ACTIONS</th></tr></thead><tbody id="receivingRows"></tbody></table></div></div></section>
+
+<section class="page" id="quality"><div class="card"><div class="cardhead"><div class="headtitle"><div class="iconbox" style="background:#fff3d8">🛡️</div><div><h2>Quality Inspection & Defect Breakdown</h2><p>Record quality issues against the receiving batch</p></div></div><div class="excel"><b>▣ Excel Data</b><button class="btn outgreen" onclick="template('quality')">↓ Template</button><button class="btn green" onclick="exportCSV('quality')">↓ Export</button><label class="btn blue">↑ Import<input id="qualityImport" type="file" hidden accept=".csv,.xls,.xlsx" onchange="importQuality(this)"></label><button class="btn blue" onclick="saveQuality()">▣ Save Quality Report</button></div></div><div class="formgrid"><div class="field"><label>Select Batch No. for Traceability</label><select class="input" id="qbatch"></select></div><div class="field"><label>Inspection Date & Lab ID</label><input class="input" id="qlab" value="Lab Assessment #LAB-992"></div><div class="field"><label>Soft (kg)</label><input class="input" id="qsoft" type="number" value="0"></div><div class="field"><label>Necrosis (kg)</label><input class="input" id="qnec" type="number" value="0"></div><div class="field"><label>D.C. (kg) [Black Gill / Discolored]</label><input class="input" id="qdc" type="number" value="0"></div><div class="field"><label>Loose Shell (kg)</label><input class="input" id="qloose" type="number" value="0"></div><div class="field"><label>Fungus (kg)</label><input class="input" id="qfungus" type="number" value="0"></div><div class="field"><label>Black Spot (kg)</label><input class="input" id="qblack" type="number" value="0"></div><div class="field"><label>Vibrio / Foreign Matter (kg)</label><input class="input" id="qvibrio" type="number" value="0"></div><div class="field"><label>Disorder Qty (kg)</label><input class="input" id="qdisorder" type="number" value="0"></div></div></div>
+<div class="card"><div class="cardhead"><div class="headtitle"><div class="iconbox" style="background:#f0e8ff">✓</div><div><h2>Recent Quality Inspection Records</h2><p>Saved quality inspections by batch</p></div></div></div><div class="tablewrap"><table class="table"><thead><tr><th>INSPECTION DATE</th><th>BATCH NO</th><th>RECEIVED QTY</th><th>DEFECT BREAKDOWN (KG)</th><th>B.S. RATIO</th><th>STATUS</th></tr></thead><tbody id="qualityRows"></tbody></table></div></div></section>
+
+<section class="page" id="daily"><div class="card"><div class="cardhead"><div class="headtitle"><div class="iconbox" style="background:#e8f5ff">📊</div><div><h2>Daily Procurement Report</h2><p>Management-ready booking, receiving and quality comparison</p></div></div><div style="display:flex;gap:8px"><input class="input" id="dailyDate" type="date" value="2026-09-13"><button class="btn blue" onclick="renderDaily()">Generate Report</button><button class="btn blue" onclick="copyDailyWhatsApp()">Copy WhatsApp Report</button><button class="btn green" onclick="exportDaily()">↓ Excel Report</button></div></div><div id="dailyContent"></div></div></section>
+
+<section class="page" id="master">
+<div class="card"><div class="cardhead"><div class="headtitle"><div class="iconbox" style="background:#e8f5ff">⚙️</div><div><h2>Master Data</h2><p>Maintain the approved Supplier / Agent, Purchase Point and Purchase Supervisor lists used throughout Procurement.</p></div></div></div>
+<div class="master-note">💡 <b>How it works:</b> Add your master records here once. Booking, Receiving and Daily Report screens will automatically use these lists, keeping names consistent and improving traceability.</div>
+<div class="mastergrid">
+<div class="master-card"><h3>👤 Supplier / Agent Master</h3><p>Approved suppliers and agents for booking and receiving.</p><div class="master-form"><input class="input" id="mSupplierName" placeholder="Supplier / Agent name"><select class="input" id="mSupplierType"><option>Supplier</option><option>Agent</option></select><button class="btn blue" onclick="addMaster('supplier')">Add</button></div><div class="master-list" id="supplierList"></div></div>
+<div class="master-card"><h3>📍 Purchase Point Master</h3><p>Receiving / procurement points and hubs.</p><div class="master-form"><input class="input" id="mPointName" placeholder="Purchase point / hub"><button class="btn blue" onclick="addMaster('point')">Add Point</button></div><div class="master-list" id="pointList"></div></div>
+<div class="master-card"><h3>👨‍💼 Purchase Supervisor Master</h3><p>Supervisors responsible for material receiving.</p><div class="master-form"><input class="input" id="mSupervisorName" placeholder="Supervisor name"><button class="btn blue" onclick="addMaster('supervisor')">Add Supervisor</button></div><div class="master-list" id="supervisorList"></div></div>
+</div></div>
+</section>
+
+<section class="page" id="dashboard"><div class="summary"><div class="metric blue"><span>Total Bookings</span><strong id="mBookings">0</strong></div><div class="metric green"><span>Received Quantity</span><strong id="mReceived">0 kg</strong></div><div class="metric orange"><span>Payable Quantity</span><strong id="mPayable">0 kg</strong></div><div class="metric purple"><span>Purchase Value</span><strong id="mValue">₹0</strong></div></div><div class="card" style="margin-top:18px"><h2>Procurement Performance</h2><p style="color:var(--muted)">Live summary of booking, receiving and quality records.</p></div></section>
+</div></main></div>
+<div class="modal" id="bookingModal" onclick="if(event.target===this)closeBookingModal()"><div class="modalbox"><div class="modalhead"><h2 id="bookingModalTitle">Booking Details</h2><button class="modalclose" onclick="closeBookingModal()">×</button></div><div id="bookingModalContent"></div></div></div>
+<div class="modal" id="receivingModal" onclick="if(event.target===this)closeReceivingModal()"><div class="modalbox"><div class="modalhead"><h2 id="receivingModalTitle">Receiving Details</h2><button class="modalclose" onclick="closeReceivingModal()">×</button></div><div id="receivingModalContent"></div></div></div>
+<script>
+const K='spmis-premium-v1';
+let db=JSON.parse(localStorage.getItem(K)||'null')||{
+ bookings:[
+ {no:'BK-00003',date:'2026-09-14',supplier:'BNBNM',count:69,qty:988,rate:543,status:'BOOKED'},
+ {no:'BK-00002',date:'2026-09-13',supplier:'HARI',count:49,qty:8000,rate:450,status:'RECEIVED'},
+ {no:'BK-00001',date:'2026-09-13',supplier:'Ramakrishna',count:60,qty:9000,rate:500,status:'RECEIVED'}],
+ receiving:[
+ {date:'2026-09-13',batch:'BATCH-BK-00002-20260913',supplier:'HARI',point:'Hub-A',vehicle:'-',count:49,boxes:50,qty:8000,pay:8000,rate:450,super:'Arun Supervisor'},
+ {date:'2026-09-13',batch:'750',supplier:'Ramakrishna',point:'Nellore',vehicle:'AP26AG7617',count:58,boxes:50,qty:6000,pay:5500,rate:450,super:'Arun Supervisor'}],
+ quality:[{date:'2026-09-13',batch:'750',soft:15.5,nec:4,dc:6.5,loose:12,fungus:2,black:3.5,vibrio:1,disorder:2.5,ratio:.85}],
+ masters:{suppliers:[{name:'Ramakrishna',type:'Supplier'},{name:'HARI',type:'Agent'},{name:'BNBNM',type:'Supplier'}],points:['Nellore','Hub-A'],supervisors:['Arun Supervisor']}
+};
+db.masters=db.masters||{suppliers:[],points:[],supervisors:[]};
+db.masters.suppliers=db.masters.suppliers||[];db.masters.points=db.masters.points||[];db.masters.supervisors=db.masters.supervisors||[];
+db.receiving=(db.receiving||[]).map((x,i)=>({...x,id:x.id||('rc-'+Date.now()+'-'+i)}));
+function persist(){localStorage.setItem(K,JSON.stringify(db))}
+function money(n){return '₹'+Number(n||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function toggleNav(){document.getElementById('app').classList.toggle('sidebarCollapsed')}
+function go(page){
+ document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===page));
+ document.querySelectorAll('[data-page]').forEach(x=>x.classList.toggle('active',x.dataset.page===page));
+ const names={booking:'Purchase Booking',receiving:'Receiving Details',quality:'Quality Issues',daily:'Daily Report',dashboard:'Procurement Dashboard',master:'Master Data'};
+ document.getElementById('pageTitle').textContent=names[page];document.getElementById('crumb').textContent=page==='dashboard'?'Dashboard':names[page];
+ if(page==='daily')renderDaily(); if(page==='dashboard')renderDash(); if(page==='master')renderMaster();
+}
+document.querySelectorAll('[data-page]').forEach(x=>x.addEventListener('click',()=>go(x.dataset.page)));
+function esc(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function addMaster(type){
+ let value='', list;
+ if(type==='supplier'){value=document.getElementById('mSupplierName').value.trim(); if(!value)return alert('Enter Supplier / Agent name.'); const kind=document.getElementById('mSupplierType').value; if(db.masters.suppliers.some(x=>x.name.toLowerCase()===value.toLowerCase()))return alert('This Supplier / Agent already exists.'); db.masters.suppliers.push({name:value,type:kind});document.getElementById('mSupplierName').value='';}
+ if(type==='point'){value=document.getElementById('mPointName').value.trim(); if(!value)return alert('Enter Purchase Point.'); if(db.masters.points.some(x=>x.toLowerCase()===value.toLowerCase()))return alert('This Purchase Point already exists.'); db.masters.points.push(value);document.getElementById('mPointName').value='';}
+ if(type==='supervisor'){value=document.getElementById('mSupervisorName').value.trim(); if(!value)return alert('Enter Supervisor name.'); if(db.masters.supervisors.some(x=>x.toLowerCase()===value.toLowerCase()))return alert('This Supervisor already exists.'); db.masters.supervisors.push(value);document.getElementById('mSupervisorName').value='';}
+ persist();renderMaster();render();
+}
+function deleteMaster(type,index){if(!confirm('Delete this master record? Existing saved transaction records will not be changed.'))return; if(type==='supplier')db.masters.suppliers.splice(index,1);if(type==='point')db.masters.points.splice(index,1);if(type==='supervisor')db.masters.supervisors.splice(index,1);persist();renderMaster();render();}
+function renderMaster(){
+ supplierList.innerHTML=db.masters.suppliers.map((x,i)=>`<div class="master-item"><div><div class="master-name">${esc(x.name)}</div><div class="master-type">${esc(x.type)}</div></div><button class="mini-delete" onclick="deleteMaster('supplier',${i})">Delete</button></div>`).join('')||'<div class="empty">No suppliers / agents added.</div>';
+ pointList.innerHTML=db.masters.points.map((x,i)=>`<div class="master-item"><div class="master-name">${esc(x)}</div><button class="mini-delete" onclick="deleteMaster('point',${i})">Delete</button></div>`).join('')||'<div class="empty">No purchase points added.</div>';
+ supervisorList.innerHTML=db.masters.supervisors.map((x,i)=>`<div class="master-item"><div class="master-name">${esc(x)}</div><button class="mini-delete" onclick="deleteMaster('supervisor',${i})">Delete</button></div>`).join('')||'<div class="empty">No supervisors added.</div>';
+}
+function populateMasterDropdowns(){
+ bsupplier.innerHTML='<option value="">-- Select Supplier / Agent --</option>'+db.masters.suppliers.map(x=>`<option value="${esc(x.name)}">${esc(x.name)} — ${esc(x.type)}</option>`).join('');
+ rpoint.innerHTML='<option value="">-- Select Purchase Point --</option>'+db.masters.points.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
+ rsuper.innerHTML='<option value="">-- Select Supervisor --</option>'+db.masters.supervisors.map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
+}
+function saveBooking(){
+ const supplier=document.getElementById('bsupplier').value.trim(),qty=+bqty.value,rate=+brate.value,date=bdate.value,terms=document.getElementById('bterms').value.trim();
+ if(!supplier||!qty||qty<=0||!rate||rate<=0||!date){alert('Please enter Booking Date, Supplier, HOSO Quantity and Booking Rate.');return}
+ const nextNum=Math.max(0,...db.bookings.map(x=>+String(x.no||'').replace(/\D/g,'')))+1;
+ const no='BK-'+String(nextNum).padStart(5,'0');
+ db.bookings.unshift({no,date,supplier,count:+bcount.value||0,qty,rate,terms,status:'BOOKED'});
+ persist();render();resetForm('booking');alert(no+' saved successfully.');
+}
+
+function ensureSupplierOption(value){
+ if(!value)return;
+ const sel=document.getElementById('bsupplier');
+ if(![...sel.options].some(o=>o.value===value)){
+   const opt=document.createElement('option');
+   opt.value=value; opt.textContent=value+' — Existing Record';
+   sel.appendChild(opt);
+ }
+ sel.value=value;
+}
+
+function viewBooking(no){
+ const b=db.bookings.find(x=>x.no===no);if(!b)return;
+ const linked=db.receiving.filter(r=>(r.booking||r.bookingNo)===no);
+ document.getElementById('bookingModalTitle').textContent='Booking Details — '+esc(b.no);
+ let linkedHtml='';
+ if(linked.length){
+   linkedHtml=`<div class="detailfull" style="margin-top:10px">
+     <b style="margin-bottom:8px;font-size:13px;color:var(--navy)">Linked Receiving Records (${linked.length})</b>
+     <div class="tablewrap"><table class="table" style="font-size:12px">
+       <thead><tr><th>BATCH NO</th><th>DATE</th><th>PURCHASE POINT</th><th>VEHICLE</th><th>RECEIVED QTY</th><th>PAYABLE QTY</th><th>ACTIONS</th></tr></thead>
+       <tbody>${linked.map(r=>`<tr><td><span class="status quality">${esc(r.batch)}</span></td><td>${esc(r.date)}</td><td>${esc(r.point||'-')}</td><td>${esc(r.vehicle||'-')}</td><td>${Number(r.qty||0).toLocaleString()} kg</td><td>${Number(r.pay||0).toLocaleString()} kg</td><td><button class="btn soft" style="padding:4px 8px;font-size:11px" onclick="closeBookingModal();viewReceiving('${r.id}')">View</button></td></tr>`).join('')}</tbody>
+     </table></div>
+   </div>`;
+ } else {
+   linkedHtml=`<div class="detailfull"><div class="invoice-empty">No receiving records linked to this booking yet.</div></div>`;
+ }
+ document.getElementById('bookingModalContent').innerHTML=`<div class="detailgrid">
+   <div class="detailitem"><b>Booking No</b><span class="strong">${esc(b.no)}</span></div>
+   <div class="detailitem"><b>Booking Date</b><span>${esc(b.date)}</span></div>
+   <div class="detailitem"><b>Status</b><span><span class="status ${b.status==='RECEIVED'?'received':'booked'}">${esc(b.status)}</span></span></div>
+   <div class="detailitem"><b>Supplier / Agent</b><span>${esc(b.supplier)}</span></div>
+   <div class="detailitem"><b>HOSO Count</b><span>${Number(b.count||0).toLocaleString()} Count</span></div>
+   <div class="detailitem"><b>Payment Terms</b><span>${esc(b.terms||'Not specified')}</span></div>
+   <div class="detailitem"><b>HOSO Quantity</b><span>${Number(b.qty||0).toLocaleString()} kg</span></div>
+   <div class="detailitem"><b>Booking Rate</b><span>${money(b.rate)}/kg</span></div>
+   <div class="detailitem"><b>Total Estimated Amount</b><span style="color:#078b4f">${money((b.qty||0)*(b.rate||0))}</span></div>
+   ${linkedHtml}
+ </div>
+ <div class="actions" style="margin-top:18px">
+   <button class="btn soft" onclick="closeBookingModal();editBooking('${esc(b.no)}')">✎ Edit Booking</button>
+   <button class="btn red" onclick="closeBookingModal();deleteBooking('${esc(b.no)}')">▣ Delete</button>
+   <button class="btn blue" onclick="closeBookingModal()">Close</button>
+ </div>`;
+ document.getElementById('bookingModal').style.display='flex';
+}
+
+function closeBookingModal(){document.getElementById('bookingModal').style.display='none'}
+
+function editBooking(no){
+ const b=db.bookings.find(x=>x.no===no);if(!b)return;
+ populateMasterDropdowns();
+ ensureSupplierOption(b.supplier||'');
+ document.getElementById('bdate').value=b.date||'2026-09-13';
+ document.getElementById('bcount').value=b.count||0;
+ document.getElementById('bqty').value=b.qty||0;
+ document.getElementById('bsupplier').value=b.supplier||'';
+ document.getElementById('bterms').value=b.terms||'';
+ document.getElementById('brate').value=b.rate||0;
+ const saveBtn=document.querySelector('#booking .actions .btn.blue');
+ if(saveBtn){
+   saveBtn.dataset.editing=no;
+   saveBtn.textContent='▣ Update Booking Record';
+   saveBtn.onclick=()=>updateBooking(no);
+ }
+ const banner=document.getElementById('bookingEditBanner');
+ if(banner){
+   banner.style.display='flex';
+   banner.style.alignItems='center';
+   banner.style.justifyContent='space-between';
+   banner.style.background='#fff8e6';
+   banner.style.border='1px solid #ffd591';
+   banner.style.borderRadius='10px';
+   banner.style.padding='10px 14px';
+   banner.style.color='#874d00';
+   banner.style.fontSize='13px';
+   banner.style.marginBottom='14px';
+   banner.innerHTML=`<div><b>✎ Editing Booking: ${esc(no)}</b> — Update values and click 'Update Booking Record'.</div><button class="btn soft" style="padding:4px 9px;font-size:12px" onclick="resetForm('booking')">Cancel</button>`;
+ }
+ go('booking');
+ const bookingCard=document.querySelector('#booking .card');
+ if(bookingCard) bookingCard.scrollIntoView({behavior:'smooth'});
+}
+
+function resetBookingSaveButton(){
+ const saveBtn=document.querySelector('#booking .actions .btn.blue');
+ if(saveBtn){
+   saveBtn.textContent='▣ Save Booking Record';
+   saveBtn.onclick=saveBooking;
+   delete saveBtn.dataset.editing;
+ }
+ const banner=document.getElementById('bookingEditBanner');
+ if(banner){banner.style.display='none';banner.innerHTML='';}
+}
+
+function updateBooking(no){
+ const b=db.bookings.find(x=>x.no===no);if(!b)return;
+ const supplier=document.getElementById('bsupplier').value.trim(),qty=+bqty.value,rate=+brate.value,date=bdate.value,terms=document.getElementById('bterms').value.trim();
+ if(!supplier||!qty||qty<=0||!rate||rate<=0||!date){alert('Please enter Booking Date, Supplier, HOSO Quantity and Booking Rate.');return}
+ b.date=date;
+ b.supplier=supplier;
+ b.count=+bcount.value||0;
+ b.qty=qty;
+ b.rate=rate;
+ b.terms=terms;
+ persist();render();resetForm('booking');
+ alert(no+' updated successfully.');
+}
+
+function deleteBooking(no){
+ const b=db.bookings.find(x=>x.no===no);if(!b)return;
+ const linked=db.receiving.filter(r=>(r.booking||r.bookingNo)===no);
+ let msg='Delete booking record '+no+'?';
+ if(linked.length){
+   msg+='\\n\\nNote: '+linked.length+' receiving record(s) are linked to this booking. They will remain saved but unlinked.';
+ }
+ if(!confirm(msg))return;
+ db.bookings=db.bookings.filter(x=>x.no!==no);
+ db.receiving.forEach(r=>{
+   if((r.booking||r.bookingNo)===no){r.booking='';if('bookingNo' in r)delete r.bookingNo;}
+ });
+ const saveBtn=document.querySelector('#booking .actions .btn.blue');
+ if(saveBtn?.dataset?.editing===no) resetForm('booking');
+ persist();render();
+ alert(no+' deleted successfully.');
+}
+
+function clearBookingFilters(){
+ const s=document.getElementById('bsearch');if(s)s.value='';
+ const f=document.getElementById('bfilter');if(f)f.value='';
+ renderBookingRows();
+}
+
+function renderBookingRows(){
+ const search=(document.getElementById('bsearch')?.value||'').trim().toLowerCase();
+ const filterDate=document.getElementById('bfilter')?.value||'';
+ const list=db.bookings.filter(x=>{
+   const matchSearch=!search ||
+     (x.no && x.no.toLowerCase().includes(search)) ||
+     (x.supplier && x.supplier.toLowerCase().includes(search)) ||
+     (x.status && x.status.toLowerCase().includes(search));
+   const matchDate=!filterDate || x.date===filterDate;
+   return matchSearch && matchDate;
+ });
+ if(!list.length){
+   bookingRows.innerHTML='<tr><td colspan="10" class="empty" style="text-align:center;padding:24px">No booking records found matching your filters.</td></tr>';
+   return;
+ }
+ bookingRows.innerHTML=list.map((x,i)=>`<tr>
+   <td>${i+1}</td>
+   <td class="strong">${esc(x.no)}</td>
+   <td>${esc(x.date)}</td>
+   <td>${esc(x.supplier)}</td>
+   <td><b>${Number(x.count||0).toLocaleString()}</b> Count</td>
+   <td>${Number(x.qty||0).toLocaleString()} kg</td>
+   <td>${money(x.rate)}</td>
+   <td>${money((x.qty||0)*(x.rate||0))}</td>
+   <td><span class="status ${x.status==='RECEIVED'?'received':'booked'}">${esc(x.status)}</span></td>
+   <td><div class="rowactions">
+     <button class="btn soft" onclick="viewBooking('${esc(x.no)}')">◉ View</button>
+     <button class="btn soft" onclick="editBooking('${esc(x.no)}')">✎ Edit</button>
+     <button class="btn red" onclick="deleteBooking('${esc(x.no)}')">▣ Delete</button>
+   </div></td>
+ </tr>`).join('');
+}
+
+function renderReceivingRows(){
+ const search=(document.getElementById('rsearch')?.value||'').trim().toLowerCase();
+ const list=db.receiving.filter(x=>{
+  if(!search)return true;
+  return (x.batch&&x.batch.toLowerCase().includes(search))||
+         (x.supplier&&x.supplier.toLowerCase().includes(search))||
+         (x.vehicle&&x.vehicle.toLowerCase().includes(search))||
+         (x.point&&x.point.toLowerCase().includes(search));
+ });
+ if(!list.length){
+  receivingRows.innerHTML='<tr><td colspan="9" class="empty" style="text-align:center;padding:24px">No receiving records found.</td></tr>';
+  return;
+ }
+ receivingRows.innerHTML=list.map(x=>`<tr><td><b>${esc(x.date)}</b><br><small>${esc(x.point)}</small></td><td><span class="status quality">${esc(x.batch)}</span></td><td><b>${esc(x.supplier||'-')}</b></td><td>${esc(x.vehicle||'-')}</td><td><b>${Number(x.count||0).toLocaleString()} Count</b><br><small>${Number(x.boxes||0).toLocaleString()} Boxes</small></td><td><b>${Number(x.pay||0).toLocaleString()} kg</b></td><td><b style="color:#078b4f">${money((x.pay||0)*(x.rate||0))}</b><br><small>${money(x.rate)}/kg</small></td><td>${esc(x.super||'-')}</td><td><div class="rowactions"><button class="btn soft" onclick="viewReceiving('${x.id}')">◉ View</button><button class="btn soft" onclick="editReceiving('${x.id}')">✎ Edit</button>${x.attachment?`<button class="btn invoice" onclick="viewReceivingInvoice('${x.id}')">📎 Invoice</button><button class="btn download" onclick="downloadReceivingInvoice('${x.id}')">↓ Download</button>`:'<span class="invoice-empty">No invoice</span>'}<button class="btn red" onclick="deleteReceiving('${x.id}')">▣ Delete</button></div></td></tr>`).join('');
+}
+
+function importBooking(input){
+ const file=input.files&&input.files[0];if(!file)return;
+ const reader=new FileReader();reader.onload=e=>{
+  try{
+   const text=e.target.result;let rows=[];
+   if(/\.xls$/i.test(file.name) && /<table/i.test(text)){
+    const doc=new DOMParser().parseFromString(text,'text/html');rows=[...doc.querySelectorAll('tr')].map(tr=>[...tr.querySelectorAll('th,td')].map(td=>td.textContent.trim()));
+   }else if(/\.csv$/i.test(file.name)){rows=parseCSV(text)}
+   else{alert('Booking import supports CSV and Excel-compatible .xls files. Please use the Template button for the format.');return}
+   if(rows.length<2)throw new Error('No data rows found.');
+   const head=rows[0].map(x=>String(x).trim().toLowerCase());const idx=n=>head.findIndex(h=>h===n.toLowerCase());
+   const get=(r,n)=>{const i=idx(n);return i>=0?String(r[i]??'').trim():''};
+   let added=0;
+   rows.slice(1).forEach(r=>{
+    const supplier=get(r,'Supplier / Agent')||get(r,'Supplier')||get(r,'Supplier Name');
+    const qty=+get(r,'HOSO Quantity (kg)')||+get(r,'HOSO Quantity')||+get(r,'Quantity')||0;
+    const rate=+get(r,'Booking Rate (₹/kg)')||+get(r,'Booking Rate')||+get(r,'Rate')||0;
+    if(!supplier||!qty||!rate)return;
+    let no=get(r,'Booking No');
+    if(!no||db.bookings.some(x=>x.no===no)){
+      const nextNum=Math.max(0,...db.bookings.map(x=>+String(x.no||'').replace(/\D/g,'')))+1;
+      no='BK-'+String(nextNum).padStart(5,'0');
+    }
+    const date=get(r,'Booking Date')||get(r,'Date')||new Date().toISOString().slice(0,10);
+    const count=+get(r,'HOSO Count')||+get(r,'Count')||0;
+    const terms=get(r,'Payment Terms')||get(r,'Terms')||'';
+    const status=get(r,'Status')||'BOOKED';
+    db.bookings.unshift({no,date,supplier,count,qty,rate,terms,status});
+    if(!db.masters.suppliers.some(s=>s.name.toLowerCase()===supplier.toLowerCase())){
+      db.masters.suppliers.push({name:supplier,type:'Supplier'});
+    }
+    added++;
+   });
+   persist();render();alert(added+' booking record(s) imported successfully.');
+  }catch(err){alert('Booking import failed: '+(err.message||'Unknown error'))}finally{input.value=''}
+ };reader.readAsText(file);
+}
+async function saveReceiving(){
+ const batch=rbatch.value.trim(),qty=+rqty.value,pay=+rpay.value,rate=+rrate.value;
+ if(!batch||!rpoint.value||!qty||!pay||!rate){alert('Please complete Batch, Purchase Point, Quantity, Payable Quantity and Rate.');return}
+ const b=db.bookings.find(x=>x.no===rbooking.value);
+ const file=rinvoice.files&&rinvoice.files[0];
+ if(file && file.size>10*1024*1024){alert('Invoice attachment must be 10 MB or smaller.');return}
+ const id='rc-'+Date.now()+'-'+Math.random().toString(36).slice(2,8);
+ const attachment=file?{name:file.name,type:file.type||'application/octet-stream',size:file.size,uploadedAt:new Date().toISOString(),storage:'indexeddb'}:null;
+ try{
+   if(file) await saveReceivingAttachment(id,file);
+   db.receiving.unshift({id,booking:rbooking.value||'',date:rdate.value,batch,supplier:b?.supplier||'Not Linked',point:rpoint.value,vehicle:rvehicle.value||'-',count:+rcount.value||b?.count||0,boxes:+rboxes.value||0,qty,pay,rate,super:rsuper.value,remarks:rremarks.value||'',attachment});
+   if(b) b.status='RECEIVED';
+   persist();render();resetForm('receiving');
+   alert('Receiving record saved successfully'+(file?' with invoice attachment.':'.'));
+ }catch(err){
+   if(file) await deleteReceivingAttachment(id);
+   alert('Could not save the receiving record or invoice attachment: '+(err.message||'storage error'));
+ }
+}
+
+function openAttachmentDB(){
+ return new Promise((resolve,reject)=>{
+  if(!('indexedDB' in window)){reject(new Error('IndexedDB is not available in this browser.'));return;}
+  const req=indexedDB.open('spmis-receiving-attachments',1);
+  req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains('invoices'))d.createObjectStore('invoices');};
+  req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error||new Error('Could not open invoice storage.'));
+ });
+}
+function saveReceivingAttachment(id,file){
+ return new Promise(async (resolve,reject)=>{
+  try{const d=await openAttachmentDB();const tx=d.transaction('invoices','readwrite');tx.objectStore('invoices').put({id,name:file.name,type:file.type||'application/octet-stream',size:file.size,blob:file,uploadedAt:new Date().toISOString()},id);tx.oncomplete=()=>{d.close();resolve()};tx.onerror=()=>{d.close();reject(tx.error||new Error('Invoice attachment could not be stored.'))};tx.onabort=()=>{d.close();reject(tx.error||new Error('Invoice attachment storage was aborted.'))};}
+  catch(e){reject(e)}
+ });
+}
+function getReceivingAttachment(id){
+ return new Promise(async (resolve,reject)=>{
+  try{const d=await openAttachmentDB();const tx=d.transaction('invoices','readonly');const req=tx.objectStore('invoices').get(id);req.onsuccess=()=>{const v=req.result;d.close();resolve(v||null)};req.onerror=()=>{d.close();reject(req.error||new Error('Could not read invoice attachment.'))};}
+  catch(e){reject(e)}
+ });
+}
+function deleteReceivingAttachment(id){
+ return new Promise(async resolve=>{try{const d=await openAttachmentDB();const tx=d.transaction('invoices','readwrite');tx.objectStore('invoices').delete(id);tx.oncomplete=()=>{d.close();resolve()};tx.onerror=()=>{d.close();resolve()}}catch(e){resolve()}});
+}
+async function resolveReceivingAttachment(r){
+ if(!r?.attachment)return null;
+ if(r.attachment.dataUrl)return {name:r.attachment.name,type:r.attachment.type||'application/octet-stream',size:r.attachment.size||0,dataUrl:r.attachment.dataUrl,blob:null};
+ const stored=await getReceivingAttachment(r.id);
+ return stored?.blob?{name:stored.name,type:stored.type,size:stored.size,blob:stored.blob,dataUrl:null}:null;
+}
+function attachmentUrl(item){return item?.dataUrl|| (item?.blob?URL.createObjectURL(item.blob):null)}
+async function viewReceivingInvoice(id){
+ const r=db.receiving.find(x=>x.id===id);if(!r?.attachment){alert('No invoice attachment found for this record.');return}
+ const item=await resolveReceivingAttachment(r);if(!item){alert('Invoice attachment is not available in local storage.');return}
+ const url=attachmentUrl(item);if(!url){alert('Could not open the invoice attachment.');return}
+ const w=window.open('', '_blank');if(!w){alert('Please allow pop-ups to view the invoice attachment.');if(item.blob)URL.revokeObjectURL(url);return}
+ if(item.type==='application/pdf') w.location.href=url;
+ else {w.document.write('<title>'+esc(item.name)+'</title><body style="margin:0;background:#111;display:flex;align-items:center;justify-content:center;height:100vh"><img src="'+url+'" style="max-width:100%;max-height:100%;object-fit:contain"></body>');w.document.close();}
+ if(item.blob)setTimeout(()=>URL.revokeObjectURL(url),60000);
+}
+async function downloadReceivingInvoice(id){
+ const r=db.receiving.find(x=>x.id===id);if(!r?.attachment){alert('No invoice attachment found for this record.');return}
+ const item=await resolveReceivingAttachment(r);if(!item){alert('Invoice attachment is not available in local storage.');return}
+ const url=attachmentUrl(item);if(!url){alert('Could not download the invoice attachment.');return}
+ const a=document.createElement('a');a.href=url;a.download=item.name||('Invoice_'+r.batch);document.body.appendChild(a);a.click();a.remove();if(item.blob)setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function closeReceivingModal(){document.getElementById('receivingModal').style.display='none'}
+function viewReceiving(id){
+ const r=db.receiving.find(x=>x.id===id);if(!r)return;
+ document.getElementById('receivingModalTitle').textContent='Receiving Details — '+r.batch;
+ document.getElementById('receivingModalContent').innerHTML=`<div class="detailgrid">
+ <div class="detailitem"><b>Booking No</b><span>${esc(r.booking||r.bookingNo||'-')}</span></div><div class="detailitem"><b>Batch No</b><span>${esc(r.batch)}</span></div><div class="detailitem"><b>Receiving Date</b><span>${esc(r.date)}</span></div>
+ <div class="detailitem"><b>Supplier / Agent</b><span>${esc(r.supplier||'-')}</span></div><div class="detailitem"><b>Purchase Point</b><span>${esc(r.point||'-')}</span></div><div class="detailitem"><b>Vehicle No</b><span>${esc(r.vehicle||'-')}</span></div>
+ <div class="detailitem"><b>HOSO Count</b><span>${Number(r.count||0).toLocaleString()} Count</span></div><div class="detailitem"><b>Purchase Qty</b><span>${Number(r.qty||0).toLocaleString()} kg</span></div><div class="detailitem"><b>Payable Qty</b><span>${Number(r.pay||0).toLocaleString()} kg</span></div>
+ <div class="detailitem"><b>Purchase Rate</b><span>${money(r.rate)}/kg</span></div><div class="detailitem"><b>Purchase Amount</b><span>${money((r.pay||0)*(r.rate||0))}</span></div><div class="detailitem"><b>No. of Boxes</b><span>${Number(r.boxes||0).toLocaleString()}</span></div>
+ <div class="detailitem"><b>Purchase Supervisor</b><span>${esc(r.super||'-')}</span></div><div class="detailitem detailfull"><b>Remarks / Quality Issues</b><span>${esc(r.remarks||'-')}</span></div>
+ <div class="detailitem detailfull"><b>Purchase Invoice Attachment</b>${r.attachment?`<div class="invoice-name">📎 ${esc(r.attachment.name)}</div><div class="attachment-actions"><button class="btn invoice" onclick="viewReceivingInvoice('${r.id}')">Invoice</button><button class="btn download" onclick="downloadReceivingInvoice('${r.id}')">↓ Download</button></div>`:'<div class="invoice-empty">No invoice attached</div>'}</div></div>`;
+ document.getElementById('receivingModal').style.display='flex';
+}
+function editReceiving(id){
+ const r=db.receiving.find(x=>x.id===id);if(!r)return;
+ rbooking.value=r.booking||r.bookingNo||'';rbatch.value=r.batch||'';rpoint.value=r.point||'';rdate.value=r.date||'2026-09-13';rcount.value=r.count||0;rqty.value=r.qty||0;rpay.value=r.pay||0;rrate.value=r.rate||0;rvehicle.value=r.vehicle||'';rsuper.value=r.super||'';rboxes.value=r.boxes||0;rremarks.value=r.remarks||'';rinvoice.value='';
+ let old=document.getElementById('invoiceEditInfo');if(!old){old=document.createElement('div');old.id='invoiceEditInfo';old.style='font-size:12px;color:#607894;margin-top:7px';rinvoice.parentElement.appendChild(old)}
+ old.innerHTML=r.attachment?`Existing invoice: <b>${esc(r.attachment.name)}</b> — <button type="button" class="btn invoice" style="padding:5px 8px" onclick="viewReceivingInvoice('${r.id}')">View</button> <button type="button" class="btn download" style="padding:5px 8px" onclick="downloadReceivingInvoice('${r.id}')">Download</button>. Select a new file to replace it.`:'No invoice attached.';
+ // Use an edit marker without changing the page styling.
+ const saveBtn=document.querySelector('#receiving .actions .btn.blue');saveBtn.dataset.editing=id;saveBtn.textContent='▣ Update Receiving Record';saveBtn.onclick=()=>updateReceiving(id);
+ go('receiving');
+}
+async function updateReceiving(id){
+ const r=db.receiving.find(x=>x.id===id);if(!r)return;
+ const batch=rbatch.value.trim(),qty=+rqty.value,pay=+rpay.value,rate=+rrate.value,file=rinvoice.files&&rinvoice.files[0];
+ if(!batch||!rpoint.value||!qty||!pay||!rate){alert('Please complete Batch, Purchase Point, Quantity, Payable Quantity and Rate.');return}
+ if(file&&file.size>10*1024*1024){alert('Invoice attachment must be 10 MB or smaller.');return}
+ try{
+  if(file){await saveReceivingAttachment(id,file);r.attachment={name:file.name,type:file.type||'application/octet-stream',size:file.size,uploadedAt:new Date().toISOString(),storage:'indexeddb'};}
+  const b=db.bookings.find(x=>x.no===rbooking.value);r.date=rdate.value;r.batch=batch;r.supplier=b?.supplier||r.supplier||'Not Linked';r.point=rpoint.value;r.vehicle=rvehicle.value||'-';r.count=+rcount.value||b?.count||0;r.boxes=+rboxes.value||0;r.qty=qty;r.pay=pay;r.rate=rate;r.super=rsuper.value;r.remarks=rremarks.value||'';r.booking=rbooking.value||'';
+  if(b)b.status='RECEIVED';persist();render();resetForm('receiving');const saveBtn=document.querySelector('#receiving .actions .btn.blue');saveBtn.textContent='▣ Save Receiving Record';saveBtn.onclick=saveReceiving;delete saveBtn.dataset.editing;alert('Receiving record updated successfully'+(file?' with invoice attachment.':'.'));
+ }catch(e){alert('Could not update the receiving record: '+(e.message||'storage error'))}
+}
+async function deleteReceiving(id){
+ const r=db.receiving.find(x=>x.id===id);if(!r)return;
+ if(!confirm('Delete receiving record '+r.batch+'? This will also remove its stored invoice attachment.'))return;
+ db.receiving=db.receiving.filter(x=>x.id!==id);await deleteReceivingAttachment(id);persist();render();
+}
+
+function saveQuality(){
+ const batch=qbatch.value;if(!batch){alert('Please select a batch.');return}
+ const x={date:new Date().toISOString().slice(0,10),batch,soft:+qsoft.value||0,nec:+qnec.value||0,dc:+qdc.value||0,loose:+qloose.value||0,fungus:+qfungus.value||0,black:+qblack.value||0,vibrio:+qvibrio.value||0,disorder:+qdisorder.value||0};
+ const r=db.receiving.find(z=>z.batch===batch);x.ratio=r&&r.qty?((x.soft+x.nec+x.dc+x.loose+x.fungus+x.black+x.vibrio+x.disorder)/r.qty*100):0;db.quality.unshift(x);persist();render();alert('Quality report saved.')}
+function resetForm(type){
+ document.querySelectorAll('#'+type+' .input').forEach(i=>{
+  if(i.type==='file')i.value='';
+  else if(i.tagName==='SELECT')i.selectedIndex=0;
+  else if(i.id==='bdate'||i.id==='rdate')i.value='2026-09-13';
+  else if(i.id==='rsuper'){}
+  else i.value='';
+ });
+ if(type==='booking') resetBookingSaveButton();
+ if(type==='receiving'){
+  const saveBtn=document.querySelector('#receiving .actions .btn.blue');
+  if(saveBtn){saveBtn.textContent='▣ Save Receiving Record';saveBtn.onclick=saveReceiving;delete saveBtn.dataset.editing;}
+  const old=document.getElementById('invoiceEditInfo');if(old)old.innerHTML='No invoice attached.';
+ }
+}
+function render(){
+ populateMasterDropdowns();
+ renderMaster();
+ renderBookingRows();
+ renderReceivingRows();
+ rbooking.innerHTML='<option value="">-- Select Booking (Optional) --</option>'+db.bookings.map(x=>`<option value="${esc(x.no)}">${esc(x.no)} — ${esc(x.supplier)}</option>`).join('');
+ qbatch.innerHTML='<option value="">-- Select Batch --</option>'+db.receiving.map(x=>`<option>${esc(x.batch)}</option>`).join('');
+ qualityRows.innerHTML=db.quality.map(x=>`<tr><td>${x.date}</td><td><b>${esc(x.batch)}</b></td><td>${db.receiving.find(r=>r.batch===x.batch)?.qty.toLocaleString()||'-'} kg</td><td>Soft ${x.soft} | Nec ${x.nec} | D.C. ${x.dc} | Loose ${x.loose} | Fungus ${x.fungus} | B.S. ${x.black} | V/FM ${x.vibrio} | Disorder ${x.disorder}</td><td><b>${x.ratio.toFixed(2)}%</b></td><td><span class="status received">INSPECTED</span></td></tr>`).join('');
+ renderDash();
+}
+function renderDash(){mBookings.textContent=db.bookings.length;mReceived.textContent=db.receiving.reduce((a,x)=>a+x.qty,0).toLocaleString()+' kg';mPayable.textContent=db.receiving.reduce((a,x)=>a+x.pay,0).toLocaleString()+' kg';mValue.textContent=money(db.receiving.reduce((a,x)=>a+x.pay*x.rate,0))}
+function renderDaily(){
+ const d=dailyDate.value,bs=db.bookings.filter(x=>x.date===d),rs=db.receiving.filter(x=>x.date===d),qs=db.quality.filter(x=>x.date===d);
+ const bqty=bs.reduce((a,x)=>a+x.qty,0),rq=rs.reduce((a,x)=>a+x.qty,0),pay=rs.reduce((a,x)=>a+x.pay,0),bv=bs.reduce((a,x)=>a+x.qty*x.rate,0),rv=rs.reduce((a,x)=>a+x.pay*x.rate,0);
+ dailyContent.innerHTML=`<div class="summary"><div class="metric blue"><span>Bookings</span><strong>${bs.length}</strong></div><div class="metric green"><span>Received Qty</span><strong>${rq.toLocaleString()} kg</strong></div><div class="metric orange"><span>Payable Qty</span><strong>${pay.toLocaleString()} kg</strong></div><div class="metric purple"><span>Purchase Value</span><strong>${money(rv)}</strong></div></div>
+ <div class="card" style="margin-top:18px"><h2>Booking ↔ Receiving Comparison</h2><table class="table"><tr><th>METRIC</th><th>BOOKING</th><th>RECEIVING</th><th>VARIATION</th></tr><tr><td>HOSO Qty</td><td>${bqty.toLocaleString()} kg</td><td>${rq.toLocaleString()} kg</td><td><b>${(rq-bqty).toLocaleString()} kg</b></td></tr><tr><td>Value</td><td>${money(bv)}</td><td>${money(rv)}</td><td><b>${money(rv-bv)}</b></td></tr><tr><td>Payable Variation</td><td>—</td><td>${rq.toLocaleString()} − ${pay.toLocaleString()}</td><td><b>${(pay-rq).toLocaleString()} kg</b> <small>(Payable Qty − Received Qty)</small></td></tr></table></div>
+ <div class="card"><h2>Booking Details</h2>${bs.map((x,i)=>`<p><b>${i+1}. ${x.no}</b> — ${x.supplier}　|　${x.count} Count　|　${x.qty.toLocaleString()} kg　|　${money(x.rate)}/kg　|　${money(x.qty*x.rate)}</p>`).join('')||'<div class="empty">No bookings for selected date.</div>'}</div>
+ <div class="card"><h2>Receiving Details</h2>${rs.map((x,i)=>`<p><b>${i+1}. Batch ${x.batch}</b> — ${x.supplier}　|　${x.count} Count　|　Received ${x.qty.toLocaleString()} kg　|　Payable ${x.pay.toLocaleString()} kg　|　${money(x.rate)}/kg　|　${money(x.pay*x.rate)}</p>`).join('')||'<div class="empty">No receiving records for selected date.</div>'}
+ </div><div class="card"><h2>Quality Details</h2>${qs.map((x,i)=>`<p><b>${i+1}. Batch ${x.batch}</b> — Soft ${x.soft} | Nec ${x.nec} | D.C. ${x.dc} | Loose ${x.loose} | Fungus ${x.fungus} | B.S. ${x.black} | V/FM ${x.vibrio} | Disorder ${x.disorder} | <b>B.S. Ratio ${x.ratio.toFixed(2)}%</b></p>`).join('')||'<div class="empty">No quality inspections for selected date.</div>'}</div>`;
+}
+function excelDownload(headers,rows,filename,title){
+ const esc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+ const th=headers.map(h=>'<th>'+esc(h)+'</th>').join('');
+ const trs=rows.map(r=>'<tr>'+r.map(v=>'<td>'+esc(v)+'</td>').join('')+'</tr>').join('');
+ const html='<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:Calibri,Arial;margin:20px;color:#17324d}h1{color:#082b4a;font-size:20px}table{border-collapse:collapse;width:100%}th{background:#0d3d67;color:#fff;padding:9px;text-align:left;border:1px solid #0d3d67}td{padding:8px;border:1px solid #d9e5f2}tr:nth-child(even){background:#f6faff}.meta{color:#607894;margin-bottom:14px}</style></head><body><h1>'+esc(title||'Shrimp Procurement MIS')+'</h1><div class="meta">Excel-compatible report generated on '+new Date().toLocaleString()+'</div><table><thead><tr>'+th+'</tr></thead><tbody>'+trs+'</tbody></table></body></html>';
+ const blob=new Blob([html],{type:'application/vnd.ms-excel'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);
+}
+function template(type){
+ const headers={booking:['Booking No','Booking Date','Supplier / Agent','HOSO Count','HOSO Quantity (kg)','Booking Rate (₹/kg)','Payment Terms','Status'],receiving:['Booking No','Batch No','Date','Supplier / Agent','Purchase Point','Vehicle No','HOSO Count','Boxes','Purchase Qty (kg)','Payable Qty (kg)','Rate (₹/kg)','Supervisor','Remarks'],quality:['Inspection Date','Batch No','Lab ID','Soft (kg)','Necrosis (kg)','D.C. (kg)','Loose Shell (kg)','Fungus (kg)','Black Spot (kg)','Vibrio / Foreign Matter (kg)','Disorder (kg)','B.S. Ratio (%)']}[type];
+ if(type==='quality'){excelDownload(headers,[], 'spmis_quality_template.xls','Quality Issues Import Template');return}
+ download(headers.join(',')+'\n','spmis_'+type+'_template.csv')
+}
+function exportCSV(type){
+ if(type==='quality'){
+  const headers=['Inspection Date','Batch No','Lab ID','Soft (kg)','Necrosis (kg)','D.C. (kg)','Loose Shell (kg)','Fungus (kg)','Black Spot (kg)','Vibrio / Foreign Matter (kg)','Disorder (kg)','B.S. Ratio (%)'];
+  const rows=db.quality.map(x=>[x.date,x.batch,x.lab||'',x.soft,x.nec,x.dc,x.loose,x.fungus,x.black,x.vibrio,x.disorder,(+x.ratio||0).toFixed(2)]);
+  excelDownload(headers,rows,'spmis_quality_export.xls','Shrimp Procurement MIS — Quality Issues');return;
+ }
+ if(type==='booking'){
+  const headers=['Booking No','Booking Date','Supplier / Agent','HOSO Count','HOSO Quantity (kg)','Booking Rate (₹/kg)','Total Amount (₹)','Payment Terms','Status'];
+  const rows=db.bookings.map(x=>[x.no,x.date,x.supplier,x.count,x.qty,x.rate,(x.qty*x.rate).toFixed(2),x.terms||'',x.status]);
+  excelDownload(headers,rows,'spmis_booking_export.xls','Shrimp Procurement MIS — Purchase Bookings');return;
+ }
+ let rows=db.receiving.map(x=>[x.batch,x.date,x.supplier,x.point,x.vehicle,x.count,x.boxes,x.qty,x.pay,x.rate,x.super]);
+ download(rows.map(x=>x.join(',')).join('\n'),'spmis_'+type+'_export.csv')
+}
+function importQuality(input){
+ const file=input.files&&input.files[0];if(!file)return;
+ const reader=new FileReader();reader.onload=e=>{
+  try{
+   const text=e.target.result;let rows=[];
+   if(/\.xls$/i.test(file.name) && /<table/i.test(text)){
+    const doc=new DOMParser().parseFromString(text,'text/html');rows=[...doc.querySelectorAll('tr')].map(tr=>[...tr.querySelectorAll('th,td')].map(td=>td.textContent.trim()));
+   }else if(/\.csv$/i.test(file.name)){rows=parseCSV(text)}
+   else{alert('For this browser version, Quality Excel import supports CSV and the Excel-compatible .xls files created by this app. Please use the Template button for the correct format.');return}
+   if(rows.length<2)throw new Error('No data rows found.');
+   const head=rows[0].map(x=>String(x).trim().toLowerCase());const idx=n=>head.findIndex(h=>h===n.toLowerCase());
+   const get=(r,n)=>{const i=idx(n);return i>=0?String(r[i]??'').trim():''};
+   let added=0;
+   rows.slice(1).forEach(r=>{
+    const batch=get(r,'Batch No');if(!batch)return;
+    const rec={date:get(r,'Inspection Date')||new Date().toISOString().slice(0,10),batch,lab:get(r,'Lab ID'),soft:+get(r,'Soft (kg)')||0,nec:+get(r,'Necrosis (kg)')||0,dc:+get(r,'D.C. (kg)')||0,loose:+get(r,'Loose Shell (kg)')||0,fungus:+get(r,'Fungus (kg)')||0,black:+get(r,'Black Spot (kg)')||0,vibrio:+get(r,'Vibrio / Foreign Matter (kg)')||0,disorder:+get(r,'Disorder (kg)')||0};
+    const rr=db.receiving.find(z=>z.batch===batch);rec.ratio=rr&&rr.qty?((rec.soft+rec.nec+rec.dc+rec.loose+rec.fungus+rec.black+rec.vibrio+rec.disorder)/rr.qty*100):(+get(r,'B.S. Ratio (%)')||0);db.quality.unshift(rec);added++;
+   });
+   persist();render();alert(added+' quality record(s) imported successfully.');
+  }catch(err){alert('Import failed: '+err.message)}finally{input.value=''}
+ };reader.readAsText(file)
+}
+function parseCSV(text){const lines=text.replace(/^\uFEFF/,'').split(/\r?\n/).filter(Boolean);return lines.map(line=>{const out=[];let cur='',q=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'&&line[i+1]==='"'){cur+='"';i++;continue}if(c==='"'){q=!q;continue}if(c===','&&!q){out.push(cur);cur='';}else cur+=c;}out.push(cur);return out;})}
+function buildWhatsAppReport(){
+ const d=dailyDate.value,bs=db.bookings.filter(x=>x.date===d),rs=db.receiving.filter(x=>x.date===d),qs=db.quality.filter(x=>x.date===d);
+ const bqty=bs.reduce((a,x)=>a+x.qty,0),rq=rs.reduce((a,x)=>a+x.qty,0),pay=rs.reduce((a,x)=>a+x.pay,0),bv=bs.reduce((a,x)=>a+x.qty*x.rate,0),rv=rs.reduce((a,x)=>a+x.pay*x.rate,0);
+ const money=n=>'₹'+Number(n||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+ const kg=n=>Number(n||0).toLocaleString('en-IN')+' kg';
+ const signed=n=>n>0?'+'+Number(n).toLocaleString('en-IN'):Number(n).toLocaleString('en-IN');
+ const lines=[];
+ lines.push('🦐 *SHRIMP PROCUREMENT — DAILY MANAGEMENT REPORT*');
+ lines.push('📅 *Date:* '+d); lines.push('');
+ lines.push('━━━━━━━━━━━━━━━━━━━━'); lines.push('📊 *TODAY AT A GLANCE*'); lines.push('━━━━━━━━━━━━━━━━━━━━');
+ lines.push('• Bookings: *'+bs.length+'*');
+ lines.push('• Receiving Batches: *'+rs.length+'*');
+ lines.push('• Quality Inspections: *'+qs.length+'*'); lines.push('');
+ lines.push('⚖️ *BOOKING ↔ RECEIVING — SEPARATE COMPARISON*'); lines.push('━━━━━━━━━━━━━━━━━━━━');
+ lines.push('• Booking HOSO Qty: *'+kg(bqty)+'*');
+ lines.push('• Receiving Qty: *'+kg(rq)+'*');
+ lines.push('• Quantity Variation: *'+signed(rq-bqty)+' kg*');
+ lines.push('• Booking Value: *'+money(bv)+'*');
+ lines.push('• Receiving Purchase Value: *'+money(rv)+'*');
+ lines.push('• Value Variation: *'+money(rv-bv)+'*');
+ lines.push('• Payable Quantity Variation: *'+signed(rq-pay)+' kg* *(Received Qty − Payable Qty)*'); lines.push('');
+ lines.push('📦 *BOOKING DETAILS*'); lines.push('━━━━━━━━━━━━━━━━━━━━');
+ if(bs.length){bs.forEach((x,i)=>{lines.push('*Booking '+(i+1)+' — '+x.no+'*');lines.push('👤 Supplier / Agent: *'+x.supplier+'*');lines.push('🦐 HOSO Count: *'+x.count+' Count*');lines.push('⚖️ HOSO Qty: *'+kg(x.qty)+'*');lines.push('💰 Rate: *'+money(x.rate)+'/kg*');lines.push('💵 Amount: *'+money(x.qty*x.rate)+'*');lines.push('📌 Status: *'+x.status+'*');lines.push('');});}else lines.push('No bookings for selected date.\n');
+ lines.push('🚚 *RECEIVING DETAILS*'); lines.push('━━━━━━━━━━━━━━━━━━━━');
+ if(rs.length){rs.forEach((x,i)=>{lines.push('*Receiving '+(i+1)+' — Batch '+x.batch+'*');lines.push('👤 Supplier / Agent: *'+(x.supplier||'—')+'*');lines.push('📍 Purchase Point: *'+(x.point||'—')+'*');lines.push('🚛 Vehicle: '+(x.vehicle||'—'));lines.push('🦐 HOSO Count: *'+x.count+' Count*');lines.push('⚖️ Received Qty: *'+kg(x.qty)+'*');lines.push('💳 Payable Qty: *'+kg(x.pay)+'*');lines.push('💰 Rate: *'+money(x.rate)+'/kg*');lines.push('💵 Purchase Value: *'+money(x.pay*x.rate)+'*');lines.push('👨‍💼 Supervisor: '+(x.super||'—'));lines.push('');});}else lines.push('No receiving batches for selected date.\n');
+ lines.push('✅ *QUALITY DETAILS*'); lines.push('━━━━━━━━━━━━━━━━━━━━');
+ if(qs.length){qs.forEach((x,i)=>{lines.push('*Inspection '+(i+1)+' — Batch '+x.batch+'*');lines.push('• Soft: '+x.soft+' kg | Necrosis: '+x.nec+' kg');lines.push('• D.C.: '+x.dc+' kg | Loose Shell: '+x.loose+' kg');lines.push('• Fungus: '+x.fungus+' kg | Black Spot: '+x.black+' kg');lines.push('• Vibrio / F.M.: '+x.vibrio+' kg | Disorder: '+x.disorder+' kg');lines.push('• B.S. Ratio: *'+Number(x.ratio||0).toFixed(2)+'%*');lines.push('');});}else lines.push('No quality inspections for selected date.\n');
+ lines.push('━━━━━━━━━━━━━━━━━━━━'); lines.push('📌 *Management Note:* Booking, receiving and quality records are shown separately for the selected date. Payable variation is calculated as *Received Qty − Payable Qty*.'); lines.push(''); lines.push('— *Shrimp Procurement MIS*');
+ return lines.join('\n');
+}
+async function copyDailyWhatsApp(){
+ const text=buildWhatsAppReport();
+ try{
+  if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(text);}else{
+   const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();document.execCommand('copy');ta.remove();
+  }
+  const btn=document.querySelector('#daily .cardhead .btn.blue[onclick="copyDailyWhatsApp()"]');
+  if(btn){const old=btn.textContent;btn.textContent='✓ Copied to Clipboard';setTimeout(()=>btn.textContent=old,1800);}
+ }catch(e){
+  prompt('Copy the WhatsApp report below:',text);
+ }
+}
+function exportDaily(){
+ const d=dailyDate.value,bs=db.bookings.filter(x=>x.date===d),rs=db.receiving.filter(x=>x.date===d),qs=db.quality.filter(x=>x.date===d);
+ const bqty=bs.reduce((a,x)=>a+x.qty,0),rq=rs.reduce((a,x)=>a+x.qty,0),pay=rs.reduce((a,x)=>a+x.pay,0),bv=bs.reduce((a,x)=>a+x.qty*x.rate,0),rv=rs.reduce((a,x)=>a+x.pay*x.rate,0);
+ const moneyX=n=>'₹'+Number(n||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+ const escX=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+ const row=(cells,cls='')=>'<tr class="'+cls+'">'+cells.map(c=>'<td>'+escX(c)+'</td>').join('')+'</tr>';
+ let html='<!DOCTYPE html><html><head><meta charset="UTF-8"><style>'+
+ 'body{font-family:Calibri,Arial,sans-serif;color:#17324d;margin:24px;background:#fff}'+
+ 'h1{font-size:22px;color:#082b4a;margin:0 0 4px}h2{font-size:16px;color:#082b4a;margin:22px 0 8px}'+
+ '.sub{color:#607894;font-size:12px;margin-bottom:16px}.summary td{border:1px solid #d9e5f2;padding:10px;background:#f5f9ff}.summary b{font-size:16px;color:#082b4a}'+
+ 'table{border-collapse:collapse;width:100%;margin-bottom:12px}.data th{background:#0d3d67;color:#fff;font-weight:bold;padding:8px;border:1px solid #0d3d67;text-align:left}.data td{padding:8px;border:1px solid #d9e5f2}.section{background:#eaf4ff;font-weight:bold;color:#0d3d67}.positive{color:#078b4f;font-weight:bold}.negative{color:#c52d37;font-weight:bold}.footer{margin-top:24px;font-size:11px;color:#607894;border-top:1px solid #d9e5f2;padding-top:10px}' +
+ '</style></head><body>'+
+ '<h1>🦐 SHRIMP PROCUREMENT — DAILY MANAGEMENT REPORT</h1><div class="sub">Date: <b>'+escX(d)+'</b> &nbsp; | &nbsp; Generated from Shrimp Procurement MIS</div>'+
+ '<h2>Today at a Glance</h2><table class="summary"><tr>'+
+ '<td><b>'+bs.length+'</b><br>Bookings</td><td><b>'+rs.length+'</b><br>Receiving Batches</td><td><b>'+rq.toLocaleString()+' kg</b><br>Received Qty</td><td><b>'+pay.toLocaleString()+' kg</b><br>Payable Qty</td><td><b>'+moneyX(rv)+'</b><br>Purchase Value</td><td><b>'+qs.length+'</b><br>Quality Inspections</td></tr></table>'+
+ '<h2>Booking ↔ Receiving Comparison</h2><table class="data"><tr><th>Metric</th><th>Booking</th><th>Receiving</th><th>Variation</th></tr>'+
+ row(['HOSO Qty',bqty.toLocaleString()+' kg',rq.toLocaleString()+' kg',(rq-bqty).toLocaleString()+' kg'],rq-bqty<0?'negative':'positive')+
+ row(['Value',moneyX(bv),moneyX(rv),moneyX(rv-bv)],rv-bv<0?'negative':'positive')+
+ row(['Payable Variation','—',rq.toLocaleString()+' − '+pay.toLocaleString(),(pay-rq).toLocaleString()+' kg'])+
+ '</table>'+
+ '<h2>Booking Details — Each Booking Separate</h2><table class="data"><tr><th>#</th><th>Booking No</th><th>Supplier / Agent</th><th>HOSO Count</th><th>HOSO Qty</th><th>Rate</th><th>Amount</th><th>Status</th></tr>'+
+ (bs.length?bs.map((x,i)=>row([i+1,x.no,x.supplier,x.count+' Count',x.qty.toLocaleString()+' kg',moneyX(x.rate)+'/kg',moneyX(x.qty*x.rate),x.status])).join(''):row(['—','No bookings for selected date','','','','','','']))+'</table>'+
+ '<h2>Receiving Details — Each Batch Separate</h2><table class="data"><tr><th>#</th><th>Batch No</th><th>Supplier / Agent</th><th>Purchase Point</th><th>Vehicle</th><th>HOSO Count</th><th>Received Qty</th><th>Payable Qty</th><th>Rate</th><th>Purchase Value</th><th>Supervisor</th></tr>'+
+ (rs.length?rs.map((x,i)=>row([i+1,x.batch,x.supplier,x.point,x.vehicle,x.count+' Count',x.qty.toLocaleString()+' kg',x.pay.toLocaleString()+' kg',moneyX(x.rate)+'/kg',moneyX(x.pay*x.rate),x.super||'—'])).join(''):row(['—','No receiving records for selected date','','','','','','','','','']))+'</table>'+
+ '<h2>Quality Details — Each Inspection Separate</h2><table class="data"><tr><th>#</th><th>Batch No</th><th>Soft (kg)</th><th>Necrosis</th><th>D.C.</th><th>Loose Shell</th><th>Fungus</th><th>Black Spot</th><th>V/FM</th><th>Disorder</th><th>B.S. Ratio</th></tr>'+
+ (qs.length?qs.map((x,i)=>row([i+1,x.batch,x.soft,x.nec,x.dc,x.loose,x.fungus,x.black,x.vibrio,x.disorder,x.ratio.toFixed(2)+'%'])).join(''):row(['—','No quality inspections for selected date','','','','','','','','','']))+'</table>'+
+ '<div class="footer">Shrimp Procurement MIS • Management Report • Booking, receiving and quality records are presented separately for the selected date.</div></body></html>';
+ const blob=new Blob([html],{type:'application/vnd.ms-excel;charset=utf-8'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Shrimp_Procurement_Daily_Report_'+d+'.xls';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function download(text,name){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'text/plain'}));a.download=name;a.click();URL.revokeObjectURL(a.href)}
+render();
+</script>
+</body>
+</html>
